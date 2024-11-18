@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f3;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.3);
+            color: black;
+            padding: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            margin: 0;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        nav {
+            flex-grow: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            position: relative;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+            position: relative;
+            /* 小导航相对于大导航定位 */
+        }
+
+        nav ul li a {
+            color: black;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00c0ff;
+        }
+
+        /* 小导航样式 */
+
+        .subnav {
+            display: none;
+            /* 默认隐藏小导航 */
+            position: absolute;
+            /* 绝对定位 */
+            top: 100%;
+            /* 在父元素底部显示 */
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* 背景颜色 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            /* 阴影效果 */
+            border-radius: 5px;
+            /* 圆角效果 */
+            z-index: 1;
+            /* 确保其位于其他元素上方 */
+        }
+
+        nav ul li:hover .subnav {
+            display: block;
+            /* 悬停时显示小导航 */
+        }
+
+        .subnav ul {
+            list-style-type: none;
+            /* 去掉默认列表样式 */
+            padding: 0;
+            margin: 0;
+            display: flex;
+            /* 横向排列 */
+        }
+
+        .subnav ul li {
+            margin: 0 5px;
+            /* 列表项之间的间距 */
+        }
+
+        .subnav ul li a {
+            padding: 10px;
+            /* 增加内边距 */
+            color: black;
+            /* 文字颜色 */
+            text-decoration: none;
+            /* 去掉下划线 */
+            display: block;
+            /* 使链接作为块级元素 */
+            transition: background 0.3s;
+            /* 添加过渡效果 */
+        }
+
+        .subnav ul li a:hover {
+            background: rgba(0, 192, 255, 0.5);
+            /* 悬停时变色 */
+        }
+
+        .banner {
+            position: relative;
+            overflow: hidden;
+            width: 100vw;
+            height: 800px;
+            margin-top: 0px;
+            touch-action: pan-y;
+            background-image: url('../images/轮播1.jpg');
+            background-size: cover;
+            animation: bg-animation 15s infinite;
+        }
+
+        .banner-item {
+            display: block;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease;
+            position: absolute;
+            top: 0;
+        }
+
+        .banner-item.active {
+            transform: translateX(0);
+        }
+
+        .banner-item:not(.active) {
+            transform: translateX(100%);
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-controls {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .banner-controls button {
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            color: #000;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s, transform 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .banner-controls button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        main {
+            padding: 30px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* 新增关于欢乐谷的部分 */
+
+        .about-happy-valley {
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-happy-valley h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .about-happy-valley p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .park-layout {
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .park-layout h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .park-layout img {
+            width: 100%;
+            /* 图片自适应宽度 */
+            max-width: 600px;
+            /* 图片最大宽度 */
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .theme-areas {
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <header>
+            <h1 style="margin-right: 20px; font-family: 'KaiTi', serif;">上海欢乐谷</h1>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="./首页.html">首页</a>
+                        <div class="subnav">
+                            <ul>
+                                <li><a href="#简介">园区简介</a></li>
+                                <li><a href="#园区布局">园区布局</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="./游乐项目.html">游乐项目</a>
+                        <div class="subnav">
+                            <ul>
+                                <li><a href="./游乐项目1.html">项目一</a></li>
+                                <li><a href="./游乐项目2.html">项目二</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="./美食餐饮.html">美食餐饮</a>
+                        <div class="subnav">
+                            <ul>
+                                <li><a href="./美食1.html">美食一</a></li>
+                                <li><a href="./美食2.html">美食二</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="./精彩演绎.html">精彩演绎</a>
+                        <div class="subnav">
+                            <ul>
+                                <li><a href="./演绎1.html">演绎一</a></li>
+                                <li><a href="./演绎2.html">演绎二</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="./推荐路线.html">推荐路线</a>
+                        <div class="subnav">
+                            <ul>
+                                <li><a href="./路线1.html">路线一</a></li>
+                                <li><a href="./路线2.html">路线二</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="./yuyue.html">线上预约</a></li>
+                </ul>
+            </nav>
+            <div style="float: right;">
+                <img src="https://sh.happyvalley.cn/img/logo.png" alt="欢乐谷 Logo" style="height: 50px;">
+            </div>
+        </header>
+
+        <div class="banner-item active">
+            <img src="../images/轮播1.jpg" alt="Banner Image 1">
+        </div>
+        <div class="banner-item">
+            <img src="../images/轮播2.jpg" alt="Banner Image 2">
+        </div>
+        <div class="banner-item">
+            <img src="../images/轮播图3.jpg" alt="Banner Image 3">
+        </div>
+        <div class="banner-controls">
+            <button class="prev">❮</button>
+            <button class="next">❯</button>
+        </div>
+    </div>
+
+    <div class="about-happy-valley">
+        <h2 id="简介">关于上海欢乐谷</h2>
+        <p>上海欢乐谷（英文名：Shanghai Happy
+            Valley）位于上海西南部的松江佘山国家旅游度假区内，距上海市中心区40千米，离虹桥国际机场25千米、浦东国际机场68千米。全园占地面积65万平米，是华东地区大型主题公园之一。</p>
+        <p>2006年，上海欢乐谷项目动工。2009年9月12日，上海欢乐谷建成开业；2014年7月，上海欢乐谷二期“欢乐海洋主题区”开放；2016年暑期，上海玛雅水公园2期“魔力水城”正式对外开放。上海欢乐谷拥有100多项体验项目，共有七大主题区：阳光港、欢乐时光、上海滩、香格里拉、欢乐海洋、金矿镇、飓风湾。
+        </p>
+        <p>2012年5月，上海欢乐谷被评为“国家AAAA旅游景区”；2012~2016年，上海欢乐谷连续五年荣获“问鼎旅游行业大赏”年度最受欢迎景区。2023年1月3日，上海欢乐谷入选第二批上海市数字景区。</p>
+    </div>
+
+    <div class="park-layout" id="园区布局">
+        <h2>园区布局</h2>
+        <img src="../images/园区.jpg" alt="园区布局图">
+        <div class="theme-areas">
+            <p>上海欢乐谷全园占地面积65万平方米，拥有100多项体验项目，上海欢乐谷全园共有七大主题区：</p>
+            <ul style="text-align: left; margin: 10px auto; max-width: 600px;">
+                <li>1. 阳光港</li>
+                <li>2. 欢乐时光</li>
+                <li>3. 上海滩</li>
+                <li>4. 香格里拉</li>
+                <li>5. 欢乐海洋</li>
+                <li>6. 金矿镇</li>
+                <li>7. 飓风湾</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Blog Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let currentIndex = 0;
+        const items = document.querySelectorAll('.banner-item');
+        const totalItems = items.length;
+
+        function showItem(index) {
+            items.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function nextItem() {
+            currentIndex = (currentIndex + 1) % totalItems;
+            showItem(currentIndex);
+        }
+
+        function prevItem() {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            showItem(currentIndex);
+        }
+
+        document.querySelector('.next').addEventListener('click', nextItem);
+        document.querySelector('.prev').addEventListener('click', prevItem);
+
+        // 自动播放
+        setInterval(nextItem, 5000); // 每5秒切换
+    </script>
+</body>
+
+</html>
